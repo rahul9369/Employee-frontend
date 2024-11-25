@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLogin } from "../Hooks/useLogin";
 import { useAuthContext } from "../GlobalContext/Authcontext";
+import { ColorRing } from "react-loader-spinner";
 
 function Login() {
   const [User, setUser] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
+
   const { login } = useLogin();
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(User);
+    setLoading(true);
     login(User.username, User.password);
+    setLoading(false);
   };
 
   const navigate = useNavigate();
@@ -68,11 +73,23 @@ function Login() {
           />
         </div>
 
-        {/* Submit Button */}
+        {/* Submit Button
         <button
           type="submit"
           className="w-full py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
           Login
+        </button> */}
+        {/* Submit */}
+        <button
+          type="submit"
+          className={`w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition relative flex items-center justify-center ${
+            loading ? "opacity-75 pointer-events-none" : ""
+          }`}>
+          {loading ? (
+            <ColorRing visible={true} height="40" width="40" colors={[]} />
+          ) : (
+            "Login"
+          )}
         </button>
 
         {/* Register Link */}
