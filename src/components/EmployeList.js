@@ -140,7 +140,9 @@ const EmployeeList = () => {
                   <td className="border px-2 py-1">{employee.designation}</td>
                   <td className="border px-2 py-1">{employee.gender}</td>
                   <td className="border px-2 py-1">{employee.course}</td>
-                  <td className="border px-2 py-1">{employee.createDate}</td>
+                  <td className="border px-2 py-1">
+                    {new Date(employee.createDate).toLocaleDateString("en-GB")}
+                  </td>
                   <td className="border px-2 py-1">
                     <button
                       className="text-blue-500 hover:underline mr-2"
