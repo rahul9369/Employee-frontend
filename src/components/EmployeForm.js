@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../GlobalContext/Authcontext";
 import { toast } from "react-toastify";
+import { NODEAPI } from "../utils/utils";
 
 const EmployeeForm = () => {
   const Navigate = useNavigate();
@@ -56,7 +57,7 @@ const EmployeeForm = () => {
 
     try {
       // Send POST request with FormData
-      const response = await axios.post("http://localhost:8080/employe", form, {
+      const response = await axios.post(`${NODEAPI}/employe`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

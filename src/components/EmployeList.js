@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuthContext } from "../GlobalContext/Authcontext";
+import { NODEAPI } from "../utils/utils";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -18,7 +19,7 @@ const EmployeeList = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch("http://localhost:8080/employe");
+        const response = await fetch(`${NODEAPI}/employe`);
         const data = await response.json();
         setEmployees(data.Empl);
         setFilteredEmployees(data.Empl);
@@ -44,10 +45,9 @@ const EmployeeList = () => {
 
   const onDelete = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/employe/delete/${id}`,
-        { method: "DELETE" }
-      );
+      const response = await fetch(`${NODEAPI}/employe/delete/${id}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         alert("Employee deleted successfully!");

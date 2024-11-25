@@ -3,6 +3,7 @@ import { useAuthContext } from "../GlobalContext/Authcontext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { NODEAPI } from "../utils/utils";
 
 export const useSignup = () => {
   const { dispatch } = useAuthContext(); // Access the AuthContext
@@ -13,7 +14,7 @@ export const useSignup = () => {
   const signup = async (username, password) => {
     setLoading(true); // Start loading
     try {
-      const response = await axios.post("http://localhost:8080/signup", {
+      const response = await axios.post(`${NODEAPI}/signup`, {
         username,
         password,
       }); // Send signup request

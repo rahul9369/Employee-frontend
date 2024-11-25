@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../GlobalContext/Authcontext";
 import { toast } from "react-toastify";
+import { NODEAPI } from "../utils/utils";
 
 const EmployeeEditForm = () => {
   const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ const EmployeeEditForm = () => {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/employe/${id}`);
+        const response = await axios.get(`${NODEAPI}/employe/${id}`);
         const { Empl2 } = response.data;
 
         // Set form data with the response values
@@ -85,7 +86,7 @@ const EmployeeEditForm = () => {
       form.append("isUpload", false);
     }
     try {
-      await axios.put(`http://localhost:8080/employe/edit/${id}`, form, {
+      await axios.put(`${NODEAPI}/employe/edit/${id}`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
