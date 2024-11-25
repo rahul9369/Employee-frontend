@@ -7,6 +7,7 @@ const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true); // Add loading state
   const navigate = useNavigate();
   const { user } = useAuthContext(); // Get user state and dispatch function
 
@@ -25,6 +26,8 @@ const EmployeeList = () => {
         setFilteredEmployees(data.Empl);
       } catch (error) {
         console.error("Error fetching employee data:", error);
+      } finally {
+        setLoading(false); // Set loading to false when data is fetched
       }
     };
     fetchEmployees();
@@ -91,61 +94,71 @@ const EmployeeList = () => {
         </div>
       </div>
 
-      <table className="table-auto border-collapse border border-gray-300 w-full text-sm">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-2 py-1">S. No.</th>
-            <th className="border px-2 py-1">Image</th>
-            <th className="border px-2 py-1">Name</th>
-            <th className="border px-2 py-1">Email</th>
-            <th className="border px-2 py-1">Mobile No</th>
-            <th className="border px-2 py-1">Designation</th>
-            <th className="border px-2 py-1">Gender</th>
-            <th className="border px-2 py-1">Course</th>
-            <th className="border px-2 py-1">Create Date</th>
-            <th className="border px-2 py-1">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredEmployees.map((employee, index) => (
-            <tr key={employee._id}>
-              <td className="border px-2 py-1">{index + 1}</td>
-              <td className="border px-2 py-1">
-                <img
-                  src={employee.img || "https://via.placeholder.com/50"}
-                  alt="Employee"
-                  className="w-8 h-8 rounded-full"
-                />
-              </td>
-              <td className="border px-2 py-1">{employee.name}</td>
-              <td className="border px-2 py-1">
-                <a
-                  href={`mailto:${employee.email}`}
-                  className="text-blue-500 underline">
-                  {employee.email}
-                </a>
-              </td>
-              <td className="border px-2 py-1">{employee.mobile}</td>
-              <td className="border px-2 py-1">{employee.designation}</td>
-              <td className="border px-2 py-1">{employee.gender}</td>
-              <td className="border px-2 py-1">{employee.course}</td>
-              <td className="border px-2 py-1">{employee.createDate}</td>
-              <td className="border px-2 py-1">
-                <button
-                  className="text-blue-500 hover:underline mr-2"
-                  onClick={() => onEdit(employee._id)}>
-                  Edit
-                </button>
-                <button
-                  className="text-red-500 hover:underline"
-                  onClick={() => onDelete(employee._id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="shimmer-table">
+        {loading ? (
+          <div className="shimmer-wrapper">
+            {[...Array(10)].map((_, index) => (
+              <div className="shimmer-row" key={index}></div>
+            ))}
+          </div>
+        ) : (
+          <table className="table-auto border-collapse border border-gray-300 w-full text-sm">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border px-2 py-1">S. No.</th>
+                <th className="border px-2 py-1">Image</th>
+                <th className="border px-2 py-1">Name</th>
+                <th className="border px-2 py-1">Email</th>
+                <th className="border px-2 py-1">Mobile No</th>
+                <th className="border px-2 py-1">Designation</th>
+                <th className="border px-2 py-1">Gender</th>
+                <th className="border px-2 py-1">Course</th>
+                <th className="border px-2 py-1">Create Date</th>
+                <th className="border px-2 py-1">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredEmployees.map((employee, index) => (
+                <tr key={employee._id}>
+                  <td className="border px-2 py-1">{index + 1}</td>
+                  <td className="border px-2 py-1">
+                    <img
+                      src={employee.img || "https://via.placeholder.com/50"}
+                      alt="Employee"
+                      className="w-8 h-8 rounded-full"
+                    />
+                  </td>
+                  <td className="border px-2 py-1">{employee.name}</td>
+                  <td className="border px-2 py-1">
+                    <a
+                      href={`mailto:${employee.email}`}
+                      className="text-blue-500 underline">
+                      {employee.email}
+                    </a>
+                  </td>
+                  <td className="border px-2 py-1">{employee.mobile}</td>
+                  <td className="border px-2 py-1">{employee.designation}</td>
+                  <td className="border px-2 py-1">{employee.gender}</td>
+                  <td className="border px-2 py-1">{employee.course}</td>
+                  <td className="border px-2 py-1">{employee.createDate}</td>
+                  <td className="border px-2 py-1">
+                    <button
+                      className="text-blue-500 hover:underline mr-2"
+                      onClick={() => onEdit(employee._id)}>
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-500 hover:underline"
+                      onClick={() => onDelete(employee._id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };

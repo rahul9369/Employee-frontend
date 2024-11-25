@@ -21,7 +21,7 @@ function HomePage() {
         {user ? (
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Hello, {user.name}!
+              Hello, {user.username}!
             </h2>
             <p className="text-md text-gray-500 mb-6">
               You are logged in. You can now manage employee records.

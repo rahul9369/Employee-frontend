@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../GlobalContext/Authcontext";
 import { toast } from "react-toastify";
 import { NODEAPI } from "../utils/utils";
+import { ColorRing } from "react-loader-spinner";
 
 const EmployeeEditForm = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +20,8 @@ const EmployeeEditForm = () => {
   });
 
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   const { id } = useParams();
 
@@ -86,26 +89,29 @@ const EmployeeEditForm = () => {
       form.append("isUpload", false);
     }
     try {
+      setLoading(true);
       await axios.put(`${NODEAPI}/employe/edit/${id}`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+      setLoading(false);
 
       navigate("/employees");
       toast.success("Employee updated successfully");
     } catch (error) {
       console.error("Error updating employee:", error.message);
       toast.error("Error updating employee");
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r p-5 from-blue-50 to-blue-100 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-lg rounded-xl px-8 py-10 w-full max-w-xl">
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
+        <h2 className="text-3xl font-bold mb-6 bg-blue-300 p-5 rounded-md text-center text-blue-600">
           Edit Employee Details
         </h2>
 
@@ -251,10 +257,22 @@ const EmployeeEditForm = () => {
           />
         </div>
 
-        <button
+        {/* <button
           type="submit"
           className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
           Update Employee
+        </button> */}
+
+        <button
+          type="submit"
+          className={`w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition relative flex items-center justify-center ${
+            loading ? "opacity-75 pointer-events-none" : ""
+          }`}>
+          {loading ? (
+            <ColorRing visible={true} height="40" width="40" colors={[]} />
+          ) : (
+            " Update Employee"
+          )}
         </button>
       </form>
     </div>
