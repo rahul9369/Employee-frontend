@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useSignup } from "../Hooks/useSignup";
-import { ColorRing } from "react-loader-spinner";
 
 function Signup() {
   // Corrected the component name to start with an uppercase letter
@@ -56,15 +55,15 @@ function Signup() {
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
-        {/* <button
+        <button
           type="submit"
           className="w-full py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
           disabled={loading} // Disable button while loading
         >
           {loading ? "Signing up..." : "Submit"}
-        </button> */}
+        </button>
         {/* Submit */}
-        <button
+        {/* <button
           type="submit"
           className={`w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition relative flex items-center justify-center ${
             loading ? "opacity-75 pointer-events-none" : ""
@@ -74,7 +73,7 @@ function Signup() {
           ) : (
             "Submit"
           )}
-        </button>
+        </button> */}
         {signupError && (
           <p className="text-red-500 text-sm mt-2">{signupError}</p>
         )}
